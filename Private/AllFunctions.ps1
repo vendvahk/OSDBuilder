@@ -2975,8 +2975,10 @@ function Get-OSDUpdateDownloads {
     #   Download
     #===================================================================================================
     foreach ($Update in $OSDUpdateDownload) {
-        $DownloadPath = $SetOSDBuilderPathUpdates
-        $DownloadFullPath = Join-Path $DownloadPath $(Split-Path $Update.OriginUri -Leaf)
+        # $DownloadPath = $SetOSDBuilderPathUpdates
+        # $DownloadFullPath = Join-Path $DownloadPath $(Split-Path $Update.OriginUri -Leaf)
+        $DownloadPath = "$SetOSDBuilderPathUpdates\$($Update.Catalog)\$($Update.Title)"
+        $DownloadFullPath = "$DownloadPath\$($Update.FileName)"
 
         if (!(Test-Path $DownloadPath)) { New-Item -Path "$DownloadPath" -ItemType Directory -Force | Out-Null }
         if (!(Test-Path $DownloadFullPath)) {
@@ -3003,7 +3005,8 @@ function Get-OSDUpdates {
     #   Get Downloaded Updates
     #===================================================================================================
     foreach ($Update in $AllOSDUpdates) {
-        $FullUpdatePath = Join-Path $SetOSDBuilderPathUpdates $(Split-Path $Update.OriginUri -Leaf)
+        # $FullUpdatePath = Join-Path $SetOSDBuilderPathUpdates $(Split-Path $Update.OriginUri -Leaf)
+        $FullUpdatePath = "$SetOSDBuilderPathUpdates\$($Update.Catalog)\$($Update.Title)\$($Update.FileName)"
 
         if (Test-Path $FullUpdatePath) {
             $Update.OSDStatus = "Downloaded"

@@ -335,11 +335,11 @@ function Save-OSDBuilderDownload {
             if ($Download.IsPresent) {
                 if ($WebClient.IsPresent) { $WebClientObj = New-Object System.Net.WebClient }
                 foreach ($Update in $OSDUpdates) {
-                    #$DownloadPath = "$SetOSDBuilderPathUpdates\$($Update.Catalog)\$($Update.Title)"
-                    $DownloadPath = "$SetOSDBuilderPathUpdates"
+                    $DownloadPath = "$SetOSDBuilderPathUpdates\$($Update.Catalog)\$($Update.Title)"
+                    # $DownloadPath = "$SetOSDBuilderPathUpdates"
 
-                    #$DownloadFullPath = "$DownloadPath\$($Update.FileName)"
-                    $DownloadFullPath = Join-Path $DownloadPath $(Split-Path $Update.OriginUri -Leaf)
+                    $DownloadFullPath = "$DownloadPath\$($Update.FileName)"
+                    # $DownloadFullPath = Join-Path $DownloadPath $(Split-Path $Update.OriginUri -Leaf)
 
                     if (!(Test-Path $DownloadPath)) { New-Item -Path "$DownloadPath" -ItemType Directory -Force | Out-Null }
                     if (!(Test-Path $DownloadFullPath)) {
