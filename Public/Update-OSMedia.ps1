@@ -512,7 +512,7 @@ function Update-OSMedia {
             Write-Verbose '19.1.1 Set ReleaseId'
             #===================================================================================================
             if ($null -ne $RegValueCurrentBuild) { $OSBuild = $RegValueCurrentBuild }
-            if ($null -eq $ReleaseId) {
+            if ([string]::IsNullOrEmpty($ReleaseId)) {
                 if ($OSBuild -eq 7600) { $ReleaseId = 7600 }
                 if ($OSBuild -eq 7601) { $ReleaseId = 7601 }
                 if ($OSBuild -eq 9600) { $ReleaseId = 9600 }
