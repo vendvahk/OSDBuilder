@@ -1,88 +1,88 @@
 <#
-.SYNOPSIS
-Downloads Microsoft Updates for use in OSDBuilder
+    .SYNOPSIS
+    Downloads Microsoft Updates for use in OSDBuilder
 
-.DESCRIPTION
-Downloads Microsoft Updates for use in OSDBuilder
+    .DESCRIPTION
+    Downloads Microsoft Updates for use in OSDBuilder
 
-.LINK
-https://osdbuilder.osdeploy.com/module/functions/Save-OSDBuilderDownload
+    .LINK
+    https://osdbuilder.osdeploy.com/module/functions/Save-OSDBuilderDownload
 #>
 function Save-OSDBuilderDownload {
-    [CmdletBinding(DefaultParameterSetName='OSDUpdate')]
+    [CmdletBinding(DefaultParameterSetName = 'OSDUpdate')]
     param (
 
         #Download OneDrive Sync Client
-        [Parameter(ParameterSetName='Content')]
+        [Parameter(ParameterSetName = 'Content')]
         [ValidateSet(
             'OneDriveSetup Production',
             'OneDriveSetup Enterprise')]
         [string]$ContentDownload,
-        
+
         #Download the selected Microsoft Updates
         #By default, updates are not downloaded
-        [Parameter(ParameterSetName='OSDUpdate')]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
         [switch]$Download,
 
         #Skip Feature Updates GridView
         #Be careful as this will automatically download
-        [Parameter(ParameterSetName='FeatureUpdates')]
+        [Parameter(ParameterSetName = 'FeatureUpdates')]
         [switch]$SkipGridView,
 
         #Downloads Feature Updates
-        [Parameter(ParameterSetName='FeatureUpdates',Mandatory = $True)]
+        [Parameter(ParameterSetName = 'FeatureUpdates', Mandatory = $True)]
         [switch]$FeatureUpdates,
 
         #Feature Update Architecture
         [Parameter(ParameterSetName = 'FeatureUpdates')]
-        [ValidateSet ('x64','x86')]
+        [ValidateSet ('x64', 'x86')]
         [string]$FeatureArch,
 
         #Feature Update Build
         [Parameter(ParameterSetName = 'FeatureUpdates')]
-        [ValidateSet ('21H1','20H2',2004,1909,1903,1809)]
+        [ValidateSet ('21H1', '20H2', 2004, 1909, 1903, 1809)]
         [string]$FeatureBuild,
 
         #Feature Update Edition
         [Parameter(ParameterSetName = 'FeatureUpdates')]
-        [ValidateSet ('Business','Consumer')]
+        [ValidateSet ('Business', 'Consumer')]
         [string]$FeatureEdition,
 
         #Feature Update Language
         [Parameter(ParameterSetName = 'FeatureUpdates')]
         [ValidateSet (
-            'ar-sa','bg-bg','cs-cz','da-dk','de-de','el-gr',
-            'en-gb','en-us','es-es','es-mx','et-ee','fi-fi',
-            'fr-ca','fr-fr','he-il','hr-hr','hu-hu','it-it',
-            'ja-jp','ko-kr','lt-lt','lv-lv','nb-no','nl-nl',
-            'pl-pl','pt-br','pt-pt','ro-ro','ru-ru','sk-sk',
-            'sl-si','sr-latn-rs','sv-se','th-th','tr-tr',
-            'uk-ua','zh-cn','zh-tw'
+            'ar-sa', 'bg-bg', 'cs-cz', 'da-dk', 'de-de', 'el-gr',
+            'en-gb', 'en-us', 'es-es', 'es-mx', 'et-ee', 'fi-fi',
+            'fr-ca', 'fr-fr', 'he-il', 'hr-hr', 'hu-hu', 'it-it',
+            'ja-jp', 'ko-kr', 'lt-lt', 'lv-lv', 'nb-no', 'nl-nl',
+            'pl-pl', 'pt-br', 'pt-pt', 'ro-ro', 'ru-ru', 'sk-sk',
+            'sl-si', 'sr-latn-rs', 'sv-se', 'th-th', 'tr-tr',
+            'uk-ua', 'zh-cn', 'zh-tw'
         )]
         [string[]]$FeatureLang,
 
         #Display the results in a GridView with PassThru enabled
-        [Parameter(ParameterSetName='OSDUpdate')]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
         [switch]$GridView,
-        
+
         #Remove Superseded Updates that are no longer needed
         [Parameter(ParameterSetName = 'OSDUpdateSuperseded', Mandatory = $True)]
-        [ValidateSet ('List','Remove')]
+        [ValidateSet ('List', 'Remove')]
         [string]$Superseded,
 
         #Filter Microsoft Updates for a specific OS Architecture
         [Parameter(ParameterSetName = 'OSDUpdate')]
-        [ValidateSet ('x64','x86')]
+        [ValidateSet ('x64', 'x86')]
         [string]$UpdateArch,
 
         #Filter Microsoft Updates for a specific ReleaseId
-        [Parameter(ParameterSetName='OSDUpdate')]
-        [ValidateSet ('21H1','20H2',2004,1909,1903,1809,1803,1709,1703,1607,1511,1507,7601,7603)]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
+        [ValidateSet ('21H1', '20H2', 2004, 1909, 1903, 1809, 1803, 1709, 1703, 1607, 1511, 1507, 7601, 7603)]
         [Alias('ReleaseId')]
         [string]$UpdateBuild,
 
         #Filter Microsoft Updates for a specific Update type
-        [Parameter(ParameterSetName='OSDUpdate')]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
         [ValidateSet(
             'SSU Servicing Stack Update',
             'LCU Latest Cumulative Update',
@@ -92,9 +92,9 @@ function Save-OSDBuilderDownload {
             'DotNet Framework',
             'Optional')]
         [string]$UpdateGroup,
-        
+
         #Filter Microsoft Updates for a specific OS
-        [Parameter(ParameterSetName='OSDUpdate')]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
         [ValidateSet(
             'Windows 7',
             'Windows 10',
@@ -105,10 +105,10 @@ function Save-OSDBuilderDownload {
         [string]$UpdateOS,
 
         #Download updates using Webclient instead of BITS
-        [Parameter(ParameterSetName='OSDUpdate')]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
         [switch]$WebClient,
 
-        [Parameter(ParameterSetName='OSDUpdate')]
+        [Parameter(ParameterSetName = 'OSDUpdate')]
         [switch]$CheckFileHash
 
     )
@@ -143,18 +143,18 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             #   Filters
             #===================================================================================================
-            if ($FeatureArch) {$FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object {$_.UpdateArch -eq $FeatureArch}}
-            if ($FeatureBuild) {$FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object {$_.UpdateBuild -eq $FeatureBuild}}
-            if ($FeatureEdition) {$FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object {$_.Title -match $FeatureEdition}}
+            if ($FeatureArch) { $FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object { $_.UpdateArch -eq $FeatureArch } }
+            if ($FeatureBuild) { $FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object { $_.UpdateBuild -eq $FeatureBuild } }
+            if ($FeatureEdition) { $FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object { $_.Title -match $FeatureEdition } }
             if ($FeatureLang) {
-                $regex = $FeatureLang.ForEach({ [RegEx]::Escape($_) }) -join '|'
-                $FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object {$_.Title -match $regex}
+                $regex = $FeatureLang.ForEach( { [RegEx]::Escape($_) }) -join '|'
+                $FeatureUpdateDownloads = $FeatureUpdateDownloads | Where-Object { $_.Title -match $regex }
             }
             #===================================================================================================
             #   Select-Object
             #===================================================================================================
-            $FeatureUpdateDownloads = $FeatureUpdateDownloads | Select-Object -Property OSDStatus, Title, UpdateOS,`
-            UpdateBuild, UpdateArch, CreationDate, KBNumber, FileName, Size, OriginUri, Hash, AdditionalHash
+            $FeatureUpdateDownloads = $FeatureUpdateDownloads | Select-Object -Property OSDStatus, Title, UpdateOS, `
+                UpdateBuild, UpdateArch, CreationDate, KBNumber, FileName, Size, OriginUri, Hash, AdditionalHash
             #===================================================================================================
             #   Sorting
             #===================================================================================================
@@ -168,17 +168,18 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             #   Download Updates
             #===================================================================================================
-            if ($WebClient.IsPresent) {$WebClientObj = New-Object System.Net.WebClient}
+            if ($WebClient.IsPresent) { $WebClientObj = New-Object System.Net.WebClient }
             foreach ($Item in $FeatureUpdateDownloads) {
                 $DownloadFullPath = Join-Path $SetOSDBuilderPathFeatureUpdates $Item.FileName
 
-                if (!(Test-Path $SetOSDBuilderPathFeatureUpdates)) {New-Item -Path $SetOSDBuilderPathFeatureUpdates -ItemType Directory -Force | Out-Null}
+                if (!(Test-Path $SetOSDBuilderPathFeatureUpdates)) { New-Item -Path $SetOSDBuilderPathFeatureUpdates -ItemType Directory -Force | Out-Null }
                 Write-Host "$DownloadFullPath" -ForegroundColor Cyan
                 Write-Host "$($Item.OriginUri)" -ForegroundColor DarkGray
                 if (!(Test-Path $DownloadFullPath)) {
-                    if ($WebClient.IsPresent) {							
-                        $WebClientObj.DownloadFile("$($Item.OriginUri)","$DownloadFullPath")
-                    } else {
+                    if ($WebClient.IsPresent) {
+                        $WebClientObj.DownloadFile("$($Item.OriginUri)", "$DownloadFullPath")
+                    }
+                    else {
                         Start-BitsTransfer -Source $Item.OriginUri -Destination $DownloadFullPath -ErrorAction Stop
                     }
                 }
@@ -193,26 +194,30 @@ function Save-OSDBuilderDownload {
 
                 if (Test-Path "$esddirectory\Sources\Install.wim") {
                     Write-Verbose "Image already exists at $esddirectory\Sources\Install.wim" -Verbose
-                } else {
-                    Try {$esdinfo = Get-WindowsImage -ImagePath "$DownloadFullPath"}
+                }
+                else {
+                    Try { $esdinfo = Get-WindowsImage -ImagePath "$DownloadFullPath" }
                     Catch {
                         Write-Warning "Could not get ESD information"
                         Break
                     }
                     Write-Host "Creating $esddirectory" -ForegroundColor Cyan
                     New-Item -Path "$esddirectory" -Force -ItemType Directory | Out-Null
-                    
+
                     foreach ($image in $esdinfo) {
                         if ($image.ImageName -eq 'Windows Setup Media') {
                             Write-Host "Expanding Index $($image.ImageIndex) $($image.ImageName) ..." -ForegroundColor Cyan
                             Expand-WindowsImage -ImagePath "$($image.ImagePath)" -ApplyPath "$esddirectory" -Index "$($image.ImageIndex)" -ErrorAction SilentlyContinue | Out-Null
-                        } elseif ($image.ImageName -like "*Windows PE*") {
+                        }
+                        elseif ($image.ImageName -like "*Windows PE*") {
                             Write-Host "Exporting Index $($image.ImageIndex) $($image.ImageName) ..." -ForegroundColor Cyan
                             Export-WindowsImage -SourceImagePath "$($image.ImagePath)" -SourceIndex $($image.ImageIndex) -DestinationImagePath "$esddirectory\sources\boot.wim" -CompressionType Max -ErrorAction SilentlyContinue | Out-Null
-                        } elseif ($image.ImageName -like "*Windows Setup*") {
+                        }
+                        elseif ($image.ImageName -like "*Windows Setup*") {
                             Write-Host "Exporting Index $($image.ImageIndex) $($image.ImageName) ..." -ForegroundColor Cyan
                             Export-WindowsImage -SourceImagePath "$($image.ImagePath)" -SourceIndex $($image.ImageIndex) -DestinationImagePath "$esddirectory\sources\boot.wim" -CompressionType Max -Setbootable -ErrorAction SilentlyContinue | Out-Null
-                        } else {
+                        }
+                        else {
                             Write-Host "Exporting Index $($image.ImageIndex) $($image.ImageName) ..." -ForegroundColor Cyan
                             Export-WindowsImage -SourceImagePath "$($image.ImagePath)" -SourceIndex $($image.ImageIndex) -DestinationImagePath "$esddirectory\sources\install.wim" -CompressionType Max -ErrorAction SilentlyContinue | Out-Null
                         }
@@ -240,7 +245,7 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             #   Download
             #===================================================================================================
-            if (!(Test-Path "$DownloadPath")) {New-Item -Path $DownloadPath -ItemType Directory -Force | Out-Null}
+            if (!(Test-Path "$DownloadPath")) { New-Item -Path $DownloadPath -ItemType Directory -Force | Out-Null }
             Write-Verbose "DownloadUrl: $DownloadUrl" -Verbose
             Write-Verbose "DownloadPath: $DownloadPath" -Verbose
             Write-Verbose "DownloadFile: $DownloadFile" -Verbose
@@ -249,7 +254,8 @@ function Save-OSDBuilderDownload {
                 $OneDriveSetupInfo = Get-Item -Path "$DownloadPath\$DownloadFile" | Select-Object -Property *
                 Write-Verbose "DownloadVersion: $($($OneDriveSetupInfo).VersionInfo.ProductVersion)" -Verbose
                 Write-Verbose 'Complete' -Verbose
-            } else {
+            }
+            else {
                 Write-Warning 'Content could not be downloaded'
             }
         }
@@ -260,7 +266,8 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             if ($WebClient.IsPresent) {
                 Write-Verbose "Downloading OSDUpdates using System.Net.WebClient" -Verbose
-            } else {
+            }
+            else {
                 Write-Verbose "Downloading OSDUpdates using BITS-Transfer" -Verbose
                 Write-Verbose "To use System.Net.WebClient, use the -WebClient Parameter" -Verbose
             }
@@ -274,14 +281,14 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             if ($Superseded) {
                 $ExistingUpdates = @()
-                if (!(Test-Path $SetOSDBuilderPathUpdates)) {New-Item $SetOSDBuilderPathUpdates -ItemType Directory -Force | Out-Null}
+                if (!(Test-Path $SetOSDBuilderPathUpdates)) { New-Item $SetOSDBuilderPathUpdates -ItemType Directory -Force | Out-Null }
                 $ExistingUpdates = Get-ChildItem -Path "$SetOSDBuilderPathUpdates\*\*" -Directory
 
                 $SupersededUpdates = @()
                 foreach ($Update in $ExistingUpdates) {
-                    if ($OSDUpdates.Title -NotContains $Update.Name) {$SupersededUpdates += $Update.FullName}
+                    if ($OSDUpdates.Title -NotContains $Update.Name) { $SupersededUpdates += $Update.FullName }
                 }
-            
+
                 if ($Superseded -eq 'List') {
                     Write-Warning 'Superseded Updates:'
                     foreach ($Update in $SupersededUpdates) {
@@ -300,19 +307,19 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             #   Filters
             #===================================================================================================
-            if ($UpdateOS) {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateOS -eq $UpdateOS}}
-            if ($UpdateArch) {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateArch -eq $UpdateArch}}
-            if ($UpdateBuild) {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateBuild -eq $UpdateBuild}}
+            if ($UpdateOS) { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateOS -eq $UpdateOS } }
+            if ($UpdateArch) { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateArch -eq $UpdateArch } }
+            if ($UpdateBuild) { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateBuild -eq $UpdateBuild } }
             #===================================================================================================
             #   UpdateGroup
             #===================================================================================================
-            if ($UpdateGroup -like "*Adobe*") {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateGroup -eq 'AdobeSU'}}
-            if ($UpdateGroup -like "*DotNet*") {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateGroup -like "DotNet*"}}
-            if ($UpdateGroup -like "*DUCU*") {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateGroup -like "ComponentDU*"}}
-            if ($UpdateGroup -like "*DUSU*") {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateGroup -eq 'SetupDU'}}
-            if ($UpdateGroup -like "*LCU*") {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateGroup -eq 'LCU'}}
-            if ($UpdateGroup -like "*SSU*") {$OSDUpdates = $OSDUpdates | Where-Object {$_.UpdateGroup -eq 'SSU'}}
-            if ($UpdateGroup -eq 'Optional') {$OSDUpdates = $OSDUpdates | Where-Object {[String]::IsNullOrWhiteSpace($_.UpdateGroup) -or $_.UpdateGroup -eq 'Optional'}}
+            if ($UpdateGroup -like "*Adobe*") { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateGroup -eq 'AdobeSU' } }
+            if ($UpdateGroup -like "*DotNet*") { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateGroup -like "DotNet*" } }
+            if ($UpdateGroup -like "*DUCU*") { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateGroup -like "ComponentDU*" } }
+            if ($UpdateGroup -like "*DUSU*") { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateGroup -eq 'SetupDU' } }
+            if ($UpdateGroup -like "*LCU*") { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateGroup -eq 'LCU' } }
+            if ($UpdateGroup -like "*SSU*") { $OSDUpdates = $OSDUpdates | Where-Object { $_.UpdateGroup -eq 'SSU' } }
+            if ($UpdateGroup -eq 'Optional') { $OSDUpdates = $OSDUpdates | Where-Object { [String]::IsNullOrWhiteSpace($_.UpdateGroup) -or $_.UpdateGroup -eq 'Optional' } }
             #===================================================================================================
             #   Sorting
             #===================================================================================================
@@ -320,27 +327,28 @@ function Save-OSDBuilderDownload {
             #===================================================================================================
             #   Select Updates with GridView
             #===================================================================================================
-            if ($GridView.IsPresent) {$OSDUpdates = $OSDUpdates | Out-GridView -PassThru -Title 'Select Updates to Download and press OK'}
+            if ($GridView.IsPresent) { $OSDUpdates = $OSDUpdates | Out-GridView -PassThru -Title 'Select Updates to Download and press OK' }
             #===================================================================================================
             #   Download Updates
             #   21.5.21 Downloads are now stored in the Updates root
             #===================================================================================================
             if ($Download.IsPresent) {
-				if ($WebClient.IsPresent) {$WebClientObj = New-Object System.Net.WebClient}
+                if ($WebClient.IsPresent) { $WebClientObj = New-Object System.Net.WebClient }
                 foreach ($Update in $OSDUpdates) {
                     #$DownloadPath = "$SetOSDBuilderPathUpdates\$($Update.Catalog)\$($Update.Title)"
                     $DownloadPath = "$SetOSDBuilderPathUpdates"
-                    
+
                     #$DownloadFullPath = "$DownloadPath\$($Update.FileName)"
                     $DownloadFullPath = Join-Path $DownloadPath $(Split-Path $Update.OriginUri -Leaf)
 
-                    if (!(Test-Path $DownloadPath)) {New-Item -Path "$DownloadPath" -ItemType Directory -Force | Out-Null}
+                    if (!(Test-Path $DownloadPath)) { New-Item -Path "$DownloadPath" -ItemType Directory -Force | Out-Null }
                     if (!(Test-Path $DownloadFullPath)) {
                         Write-Host "$DownloadFullPath" -ForegroundColor Cyan
                         Write-Host "$($Update.OriginUri)" -ForegroundColor DarkGray
-                        if ($WebClient.IsPresent) {							
-                            $WebClientObj.DownloadFile("$($Update.OriginUri)","$DownloadFullPath")
-                        } else {
+                        if ($WebClient.IsPresent) {
+                            $WebClientObj.DownloadFile("$($Update.OriginUri)", "$DownloadFullPath")
+                        }
+                        else {
                             Start-BitsTransfer -Source $Update.OriginUri -Destination $DownloadFullPath
                         }
                         if ($CheckFileHash.IsPresent -and ($Update.Hash -ne "")) {
@@ -349,17 +357,19 @@ function Save-OSDBuilderDownload {
                             $DeriredHash = Convert-ByteArrayToHex -Bytes $($update.Hash -split " ")
                             Write-Verbose "Desired SHA1 Hash: [$DeriredHash], Actual Hash [$ActualHash]"
                             if ($ActualHash -ne $DeriredHash) {
-                                Write-Error -Exception "Hashes don't match - please investigate!" 
+                                Write-Error -Exception "Hashes don't match - please investigate!"
                             }
                             else {
                                 Write-Verbose -Message "Hashes match."
                             }
                         }
-                    } else {
+                    }
+                    else {
                         #Write-Warning "Exists: $($Update.Title)"
                     }
                 }
-            } else {
+            }
+            else {
                 Return $OSDUpdates | Select-Object -Property Catalog, OSDVersion, OSDStatus, UpdateOS, UpdateBuild, UpdateArch, UpdateGroup, CreationDate, KBNumber, Title
             }
         }
