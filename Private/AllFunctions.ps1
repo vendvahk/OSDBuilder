@@ -509,10 +509,11 @@ function Add-ContentPack {
     #   BUILD
     #===================================================================================================
     if ($ContentPacks) {
-        if ($ReleaseID -match '1909') { $MSUX = '1903' }
-        elseif ($ReleaseID -match '20H2') { $MSUX = '2004' }
-        elseif ($ReleaseID -match '21H1') { $MSUX = '2004' }
-        else { $MSUX = $ReleaseID }
+        if ($ReleaseID -match '1909') {$MSUX = '1903'}
+        elseif ($ReleaseID -match '20H2') {$MSUX = '2004'}
+        elseif ($ReleaseID -match '21H1') {$MSUX = '2004'}
+        elseif ($ReleaseID -match '21H2') {$MSUX = '2004'}
+        else {$MSUX = $ReleaseID}
         #===================================================================================================
         #   MEDIA ContentPacks
         #===================================================================================================
@@ -3314,23 +3315,23 @@ function Get-TaskContentAddFeatureOnDemand {
     $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*LanguageExperiencePack*" }
     $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.FullName -notlike "*metadata*" }
 
-    if (($OSMedia.ReleaseId -gt 1803) -or ($OSMedia.ReleaseId -match '20H2') -or ($OSMedia.ReleaseId -match '21H1')) {
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*ActiveDirectory*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*BitLocker-Recovery*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*CertificateServices*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*DHCP-Tools*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*DNS-Tools*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*FailoverCluster*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*FileServices-Tools*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*GroupPolicy-Management*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*IPAM-Client*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*LLDP*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*NetworkController*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*NetworkLoadBalancing*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*RasCMAK*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*RasRip*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*RemoteAccess-Management*" }
-        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*RemoteDesktop-Services*" }
+    if (($OSMedia.ReleaseId -gt 1803) -or ($OSMedia.ReleaseId -match '20H2') -or ($OSMedia.ReleaseId -match '21H1') -or ($OSMedia.ReleaseId -match '21H2')) {
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*ActiveDirectory*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*BitLocker-Recovery*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*CertificateServices*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*DHCP-Tools*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*DNS-Tools*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*FailoverCluster*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*FileServices-Tools*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*GroupPolicy-Management*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*IPAM-Client*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*LLDP*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*NetworkController*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*NetworkLoadBalancing*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*RasCMAK*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*RasRip*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*RemoteAccess-Management*"}
+        $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*RemoteDesktop-Services*"}
         #$FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object {$_.Name -notlike "*Server-AppCompat*"}
         $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*ServerManager-Tools*" }
         $FeaturesOnDemandIsoExtractDir = $FeaturesOnDemandIsoExtractDir | Where-Object { $_.Name -notlike "*Shielded-VM*" }
@@ -3358,13 +3359,16 @@ function Get-TaskContentAddFeatureOnDemand {
             $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
         }
         elseif ($($OSMedia.ReleaseId) -eq 2009) {
-            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+        }
+        elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+            $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         else {
             $AddFeatureOnDemand = $AddFeatureOnDemand | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3458,13 +3462,16 @@ function Get-TaskContentIsoExtract {
             $ContentIsoExtract = $ContentIsoExtract | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
         }
         elseif ($($OSMedia.ReleaseId) -eq 2009) {
-            $ContentIsoExtract = $ContentIsoExtract | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $ContentIsoExtract = $ContentIsoExtract | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-            $ContentIsoExtract = $ContentIsoExtract | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $ContentIsoExtract = $ContentIsoExtract | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-            $ContentIsoExtract = $ContentIsoExtract | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $ContentIsoExtract = $ContentIsoExtract | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+        }
+        elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+            $ContentIsoExtract = $ContentIsoExtract | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         else {
             $ContentIsoExtract = $ContentIsoExtract | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3527,13 +3534,16 @@ function Get-TaskContentLanguageFeature {
                 $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
             }
             elseif ($($OSMedia.ReleaseId) -eq 2009) {
-                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
             }
             elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
             }
             elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+            }
+            elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+                $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
             }
             else {
                 $LanguageFodUpdatesDir = $LanguageFodUpdatesDir | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3572,13 +3582,16 @@ function Get-TaskContentLanguageInterfacePack {
                 $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
             }
             elseif ($($OSMedia.ReleaseId) -eq 2009) {
-                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
             }
             elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
             }
             elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+            }
+            elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+                $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
             }
             else {
                 $LanguageLipUpdatesDir = $LanguageLipUpdatesDir | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3630,13 +3643,16 @@ function Get-TaskContentLanguagePack {
             $LanguagePack = $LanguagePack | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
         }
         elseif ($($OSMedia.ReleaseId) -eq 2009) {
-            $LanguagePack = $LanguagePack | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $LanguagePack = $LanguagePack | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-            $LanguagePack = $LanguagePack | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $LanguagePack = $LanguagePack | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-            $LanguagePack = $LanguagePack | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+            $LanguagePack = $LanguagePack | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+        }
+        elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+            $LanguagePack = $LanguagePack | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
         }
         else {
             $LanguagePack = $LanguagePack | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3886,13 +3902,16 @@ function Get-TaskWinPEADK {
         $WinPEADK = $WinPEADK | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
     }
     elseif ($($OSMedia.ReleaseId) -eq 2009) {
-        $WinPEADK = $WinPEADK | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADK = $WinPEADK | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-        $WinPEADK = $WinPEADK | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADK = $WinPEADK | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-        $WinPEADK = $WinPEADK | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADK = $WinPEADK | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+    }
+    elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+        $WinPEADK = $WinPEADK | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     else {
         $WinPEADK = $WinPEADK | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3932,13 +3951,16 @@ function Get-TaskWinPEADKPE {
         $WinPEADKPE = $WinPEADKPE | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
     }
     elseif ($($OSMedia.ReleaseId) -eq 2009) {
-        $WinPEADKPE = $WinPEADKPE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKPE = $WinPEADKPE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-        $WinPEADKPE = $WinPEADKPE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKPE = $WinPEADKPE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-        $WinPEADKPE = $WinPEADKPE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKPE = $WinPEADKPE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+    }
+    elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+        $WinPEADKPE = $WinPEADKPE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     else {
         $WinPEADKPE = $WinPEADKPE | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -3979,13 +4001,16 @@ function Get-TaskWinPEADKRE {
         $WinPEADKRE = $WinPEADKRE | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
     }
     elseif ($($OSMedia.ReleaseId) -eq 2009) {
-        $WinPEADKRE = $WinPEADKRE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKRE = $WinPEADKRE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-        $WinPEADKRE = $WinPEADKRE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKRE = $WinPEADKRE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-        $WinPEADKRE = $WinPEADKRE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKRE = $WinPEADKRE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+    }
+    elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+        $WinPEADKRE = $WinPEADKRE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     else {
         $WinPEADKRE = $WinPEADKRE | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -4031,13 +4056,16 @@ function Get-TaskWinPEADKSE {
         $WinPEADKSE = $WinPEADKSE | Where-Object { $_.FullName -match '1903' -or $_.FullName -match '1909' }
     }
     elseif ($($OSMedia.ReleaseId) -eq 2009) {
-        $WinPEADKSE = $WinPEADKSE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKSE = $WinPEADKSE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '20H2') {
-        $WinPEADKSE = $WinPEADKSE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKSE = $WinPEADKSE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     elseif ($($OSMedia.ReleaseId) -eq '21H1') {
-        $WinPEADKSE = $WinPEADKSE | Where-Object { $_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' }
+        $WinPEADKSE = $WinPEADKSE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
+    }
+    elseif ($($OSMedia.ReleaseId) -eq '21H2') {
+        $WinPEADKSE = $WinPEADKSE | Where-Object {$_.FullName -match '2004' -or $_.FullName -match '2009' -or $_.FullName -match '20H2' -or $_.FullName -match '21H1' -or $_.FullName -match '21H2'}
     }
     else {
         $WinPEADKSE = $WinPEADKSE | Where-Object { $_.FullName -match $OSMedia.ReleaseId }
@@ -5059,6 +5087,7 @@ function Rename-OSMedia {
             #if ($OSMBuild -eq 19041) {$OSMReleaseId = 2004}
             #if ($OSMBuild -eq 19042) {$OSMReleaseId = '20H2'}
             #if ($OSMBuild -eq 19043) {$OSMReleaseId = '21H1'}
+            #if ($OSMBuild -eq 19044) {$OSMReleaseId = '21H2'}
 
             Write-Verbose "ReleaseId: $OSMReleaseId"
 
